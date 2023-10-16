@@ -1,0 +1,29 @@
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* SIGN-UP FORM */
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  display: inline-block;
+  width: 200px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+form button {
+  width: fit-content;
+  align-self: center;
+  padding: 8px 10px;
+  font-size: 1rem;
+}
