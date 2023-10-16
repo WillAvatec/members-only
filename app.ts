@@ -20,6 +20,9 @@ async function connecToMongoDB() {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+// Set public folder
+app.use(express.static(path.join(__dirname, "public")));
+
 app.get("/", (req, res, next) => {
   res.send("Hola mundo");
 });
