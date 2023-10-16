@@ -9,6 +9,13 @@ dotenv.config();
 
 const app = express();
 
+// Connect to mongoDB
+connecToMongoDB().catch((err) => console.log(err));
+async function connecToMongoDB() {
+  await mongoose.connect(process.env.MONGODB_URI);
+  console.log("Connected to MongoDB!");
+}
+
 app.get("/", (req, res, next) => {
   res.send("Hola mundo");
 });
