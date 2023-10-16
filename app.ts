@@ -16,6 +16,10 @@ async function connecToMongoDB() {
   console.log("Connected to MongoDB!");
 }
 
+// Views Setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+
 app.get("/", (req, res, next) => {
   res.send("Hola mundo");
 });
