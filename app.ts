@@ -50,6 +50,13 @@ passport.use(
 
 // Middleware to read request body
 app.use(express.json());
+app.use(
+  session({
+    secret: "randomCharacters",
+    saveUninitialized: true,
+    resave: false,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
