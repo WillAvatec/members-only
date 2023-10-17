@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface IUser {
+export interface IUser {
   firstName: string;
   lastName: string;
   username: string;
