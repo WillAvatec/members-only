@@ -1,4 +1,5 @@
 import userRouter from "./resources/user/user.router";
+import postRouter from "./resources/post/post.router";
 import { Strategy } from "passport-local";
 import mongoose from "mongoose";
 import passport from "passport";
@@ -65,6 +66,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Use routers
+app.use("/", postRouter);
 app.use("/", userRouter);
 
 app.listen(process.env.PORT, () => {
