@@ -2,10 +2,11 @@ extends layout
 block content
     h1 Sign up
     p Please fill the form:
-    .modal-errors(style=(errors?"block":"none"))
-        ul
-            each error in errors
-                li #{error.msg}
+    if errors
+        .modal-errors
+            ul
+                each error in errors
+                    li #{error.msg}
     form(action="" method="POST")
         .ipt-wrap
             label(for="firstName") First Name:
