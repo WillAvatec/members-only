@@ -2,6 +2,7 @@ import asyncHand from "express-async-handler";
 import { body, validationResult } from "express-validator";
 import User, { IUser } from "./user.model";
 import { HydratedDocument } from "mongoose";
+import bcrypt from "bcryptjs";
 
 export const getUserForm = asyncHand(async (req, res, next) => {
   res.render("sign-up");
@@ -33,10 +34,12 @@ export const postNewUser = [
     // Get errors of validation
     const errors = validationResult(req);
 
-    const newUser: HydratedDocument<IUser> = new User({
+    const hashedPass = await bcrypt.hash(req.body.password, 10);
+
+    const newUser: HydratedDocument<IUser> = new User<IUser>({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      password: req.body.password,
+      password: hashedPass,
       username: req.body.username,
       status: "member",
     });
@@ -47,7 +50,8 @@ export const postNewUser = [
         errors: errors.array(),
       });
     } else {
-      res.render("index");
+      const result = await newUser.save();
+      res.redirect("/");
     }
   }),
 ];
