@@ -1,4 +1,4 @@
-import userRouter from "./resources/user/user.router";
+import authRouter from "./resources/auth/auth.router";
 import postRouter from "./resources/post/post.router";
 import { Strategy } from "passport-local";
 import mongoose from "mongoose";
@@ -67,7 +67,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Use routers
 app.use("/", postRouter);
-app.use("/", userRouter);
+app.use("/", authRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Listening to PORT: " + process.env.PORT);
