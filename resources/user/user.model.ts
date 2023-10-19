@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export interface IUser {
   firstName: string;
@@ -8,7 +8,7 @@ export interface IUser {
   status: "member" | "admin";
 }
 // Create schema
-const userSchema = new mongoose.Schema<IUser>({
+const userSchema = new Schema<IUser>({
   firstName: {
     type: String,
     required: true,
@@ -32,6 +32,6 @@ const userSchema = new mongoose.Schema<IUser>({
 });
 
 // Compile into model and export
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model<IUser>("User", userSchema);
 
 export default User;
