@@ -1,4 +1,8 @@
 extends layout 
 block content
-    p This is the content
-    a(href="/sign") Create a new account
+    if user
+        h1 Welcome back, #{user.username}
+        a(href="/log-out") Log out 
+    else
+        a(href="/sign") Create a new account
+        a(href="/log") Or log in
