@@ -1,7 +1,7 @@
 extends layout 
 block content
-    if user
-        h1 Welcome back, #{user.username}
+    if currentUser
+        h1 Welcome back, #{currentUser.username}
         a(href="/log-out") Log out 
     else
         a(href="/sign") Create a new account
