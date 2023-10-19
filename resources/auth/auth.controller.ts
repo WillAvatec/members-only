@@ -40,7 +40,7 @@ export const postNewUser = [
 
     const hashedPass = await bcrypt.hash(req.body.password, 10);
 
-    const newUser: HydratedDocument<IUser> = new User({
+    const newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: hashedPass,
