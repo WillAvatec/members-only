@@ -28,26 +28,45 @@ app.set("view engine", "pug");
 
 // Declare Strategy to use on passport
 passport.use(
-  new Strategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({ username });
-      if (!user) {
-        return done(null, false, {
-          message: "Incorrect username or password.",
-        });
+  new Strategy(
+    { usernameField: "username", passwordField: "password" },
+    async (username, password, done) => {
+      try {
+        const user = await User.findOne({ username: username });
+        if (!user) {
+          return done(null, false, {
+            message: "Incorrect username or password.",
+          });
+        }
+        const passwordsAreEqual = await bcrypt.compare(password, user.password);
+        console.log(passwordsAreEqual);
+        if (!passwordsAreEqual) {
+          return done(null, false, {
+            message: "Incorrect username or password.",
+          });
+        }
+        return done(null, user);
+      } catch (err) {
+        done(err);
       }
-      const passwordsAreEqual = await bcrypt.compare(password, user.password);
-      if (!passwordsAreEqual) {
-        return done(null, false, {
-          message: "Incorrect username or password.",
-        });
-      }
-      return done(null, user);
-    } catch (err) {
-      done(err);
     }
-  })
+  )
 );
+
+passport.serializeUser((user: any, done) => {
+  console.log("Serializing...");
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    console.log("Deserializing...");
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
 
 // Middleware to read request body
 app.use(express.json());
@@ -64,6 +83,11 @@ app.use(express.urlencoded({ extended: false }));
 
 // Set public folder
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 // Use routers
 app.use("/", postRouter);
