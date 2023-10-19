@@ -1,8 +1,12 @@
 import asyncHand from "express-async-handler";
 import { body, validationResult } from "express-validator";
-import User, { IUser } from "./user.model";
+import User, { IUser } from "../user/user.model";
 import { HydratedDocument } from "mongoose";
 import bcrypt from "bcryptjs";
+import { Request, Response } from "express";
+import passport from "passport";
+
+/* SIGN IN */
 
 export const getUserForm = asyncHand(async (req, res, next) => {
   res.render("sign-up");
@@ -36,7 +40,7 @@ export const postNewUser = [
 
     const hashedPass = await bcrypt.hash(req.body.password, 10);
 
-    const newUser: HydratedDocument<IUser> = new User<IUser>({
+    const newUser: HydratedDocument<IUser> = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: hashedPass,
@@ -51,7 +55,27 @@ export const postNewUser = [
       });
     } else {
       const result = await newUser.save();
-      res.redirect("/");
+      res.redirect("/log");
     }
   }),
 ];
+
+/* LOG IN */
+
+export const getLogForm = (req: Request, res: Response) => {
+  res.render("log-in");
+};
+
+export const postLogIn = passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/log",
+});
+
+export const endSession = asyncHand(async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
