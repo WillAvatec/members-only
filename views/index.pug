@@ -3,6 +3,18 @@ block content
     if currentUser
         h1 Welcome back, #{currentUser.username}
         a(href="/log-out") Log out 
+        h2 #[a(href="/new-post") Add a new Message]
     else
         a(href="/sign") Create a new account
         a(href="/log") Or log in
+    .posts-wrapper
+        each post in posts
+            article
+                h3.title #{post.title}
+                p.content #{post.content}
+                if currentUser && currentUser.status === "admin"
+                    a.delete-btn(href="/delete/" + post._id) Delete this post
+                if currentUser
+                    small Written by: #[strong #{post.author.username}]
+                    - const creationDate = new Intl.DateTimeFormat('en', { dateStyle: "medium", timeStyle: "medium" }).format(post.createdAt)
+                    p Creation Date: #{creationDate}
