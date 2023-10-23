@@ -30,7 +30,9 @@ export const postNewUser = [
       return user === null;
     })
     .withMessage("Username is already taken, pick another"),
-  body("password", "Password must not be empty").trim().isLength({ min: 5 }),
+  body("password", "Password must be at least 5 characters long")
+    .trim()
+    .isLength({ min: 5 }),
   body("confirm-pass", "Passwords do not match").custom((value, { req }) => {
     return value === req.body.password;
   }),
