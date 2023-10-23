@@ -2,7 +2,8 @@ extends layout
 block content
     if currentUser
         h1 Welcome back, #{currentUser.username}
-        a(href="/log-out") Log out 
+        a(href="/log-out") Log out
+        a(href="/user/update") Update membership 
         h2 #[a(href="/new-post") Add a new Message]
     else
         a(href="/sign") Create a new account

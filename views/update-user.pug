@@ -1,0 +1,17 @@
+extends layout
+block content
+    a(href="/") Go back to Index Page
+    if err
+        h2=err
+    if user
+        if user.status === "admin"
+            h1 You are already an admin!
+        if user.status === "member"
+            form(action="" method="post")
+                label(for="passcode")
+                    p Please enter passcode:
+                    input#passcode(type="text" name="passcode" required)
+                button(type="submit") Submit
+    else
+        -console.log(user)
+        h1 No user provided

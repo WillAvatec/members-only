@@ -1,5 +1,6 @@
 import authRouter from "./resources/auth/auth.router";
 import postRouter from "./resources/post/post.router";
+import userRouter from "./resources/user/user.router";
 import { Strategy } from "passport-local";
 import mongoose from "mongoose";
 import passport from "passport";
@@ -92,6 +93,7 @@ app.use((req, res, next) => {
 // Use routers
 app.use("/", postRouter);
 app.use("/", authRouter);
+app.use("/user", userRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Listening to PORT: " + process.env.PORT);

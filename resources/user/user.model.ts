@@ -23,6 +23,7 @@ const userSchema = new Schema<IUser>({
   },
   status: {
     type: String,
+    default: "member",
     required: true,
   },
   username: {
